@@ -33,21 +33,25 @@ function App() {
         const leftShoulder = results.poseLandmarks && results.poseLandmarks[11];
 
         if (rightShoulder && leftShoulder) {
-            const shoulderMidPoint = (rightShoulder + leftShoulder) / 2;
-            const noseLandmark = results.faceLandmarks && results.faceLandmarks[0];
-            const chinLandmark = results.faceLandmarks && results.faceLandmarks[152];
-
+          //어깨 중심 좌표 값 구하기
+          const shoulderMidPoint = [
+            (rightShoulder.x + leftShoulder.x) / 2,
+            (rightShoulder.y + leftShoulder.y) / 2,
+            (rightShoulder.z + leftShoulder.z) / 2
+          ];
+          //턱 좌표값 구하기
+          const chinLandmark = results.faceLandmarks && results.faceLandmarks[152];
+          console.log("X:"+shoulderMidPoint[0],"Y:"+shoulderMidPoint[1],"Z:"+shoulderMidPoint[2]);
             // z값을 이용해서 거북목 자세인지 판단//코 어깨중심
-            // const Zvalues= checkZValues(noseLandmark, shoulderMidPoint);
+            const Zvalues= checkZValues(chinLandmark, shoulderMidPoint);
             //턱끝과 어깨 중심 사이 거리
-            const distance = checkDistance(chinLandmark, shoulderMidPoint);
+            //const distance = checkDistance(chinLandmark, shoulderMidPoint);
             //턱끝과 어깨 중심의 2차원 각도 계산
            // const angle = checkAngle(chinLandmark, shoulderMidPoint);
 
-
-            if(noseLandmark){
+          if(chinLandmark){
               //if(Zvalues||distance||angle){
-              if(distance){
+              if(Zvalues){
                 canvasCtx.font = "30px Arial";
                 canvasCtx.fillStyle = "red";
                 canvasCtx.fillText("올바르지 않은 자세입니다.", 10, 50);
