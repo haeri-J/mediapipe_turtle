@@ -1,10 +1,16 @@
-export function checkDistance(chinLandmark, shoulderMidPoint) {
+export function checkDistance(chinLandmark, shoulderMPointX, shoulderMPointY) {
     if(chinLandmark){
+
+        const chinX = chinLandmark.x;
         const chinY = chinLandmark.y;
-        const shoulderMidPointY = chinLandmark.y;
-        const distance = Math.abs(chinY - shoulderMidPointY)
-        console.log("C:" + chinY, "S:" + shoulderMidPointY, "D:" + distance);
-        // 임계치 정하기
-        return distance >= 0.5;
+
+        const shoulderMidPointX = shoulderMPointX;
+        const shoulderMidPointY = shoulderMPointY;
+
+        const distance = Math.sqrt((chinX - shoulderMidPointX) ** 2 + (chinY - shoulderMidPointY) ** 2);
+
+        console.log("C:" + chinY, "S_x:" + shoulderMidPointX, "S_y:" + shoulderMidPointY, "D:" + distance);
+
+        return distance <= 80;
     }
 }
