@@ -1,16 +1,19 @@
-export function checkDistance(chinLandmark, shoulderMPointX, shoulderMPointY) {
+export function checkDistance(chinLandmark, shoulderMidPoint) {
     if(chinLandmark){
 
         const chinX = chinLandmark.x;
         const chinY = chinLandmark.y;
+       // const chinZ = chinLandmark.z;
 
-        const shoulderMidPointX = shoulderMPointX;
-        const shoulderMidPointY = shoulderMPointY;
+        const shoulderMidPointX = shoulderMidPoint[0];
+        const shoulderMidPointY = shoulderMidPoint[1];
+        //const shoulderMidPointZ = shoulderMidPoint[2];
 
         const distance = Math.sqrt((chinX - shoulderMidPointX) ** 2 + (chinY - shoulderMidPointY) ** 2);
 
-        console.log("C:" + chinY, "S_x:" + shoulderMidPointX, "S_y:" + shoulderMidPointY, "D:" + distance);
+        console.log("D:" + distance);
 
-        return distance <= 80;
+        return distance <= 0.15;
+
     }
 }
