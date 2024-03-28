@@ -26,7 +26,7 @@ export function checkAngle(chinLandmark, LShoulder, shoulderMidPoint) {
         const angle_rad = Math.acos(cos_theta);
         const angle_deg = (angle_rad * 180) / Math.PI;
 
-        return angle_deg <= 60 || angle_deg >= 130;
+        return angle_deg;
     }
 } 
 

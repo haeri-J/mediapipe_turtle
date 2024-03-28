@@ -49,15 +49,14 @@ function PoseDetector() {
   
               // z값을 이용해서 거북목 자세인지 판단 -> 코와 어깨중심 - 해리
               const Zvalues= checkZValues(chinLandmark, shoulderMidPoint); 
-  
               //턱끝과 어깨 중심 사이 거리(distance) - 다은
               const distance = checkDistance(chinLandmark, shoulderMidPoint);
               //턱끝과 어깨 중심의 2차원 각도 계산(angle) - 다은
               const angle = checkAngle(chinLandmark, leftShoulder, shoulderMidPoint);
   
   
-              if(noseLandmark){ // 0번 랜드마크가 인식될 경우 
-                if(Zvalues || distance || angle){
+              if(chinLandmark){ // 152번 랜드마크가 인식될 경우 
+                if(Zvalues >= 0.38 || distance <= 0.15 || (angle <= 60 || angle >= 130)){
                 // if( distance ){
                   canvasCtx.font = "10px Arial";
                   canvasCtx.fillStyle = "red";

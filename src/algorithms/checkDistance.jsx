@@ -13,7 +13,7 @@ export function checkDistance(chinLandmark, shoulderMidPoint) {
 
         console.log("D:" + distance);
 
-        return distance <= 0.15;
+        return distance;
 
     }
 }
