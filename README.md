@@ -1,3 +1,6 @@
+#npm install
+npm install react-webcam @mediapipe/holistic @mediapipe/camera_utils @mediapipe/drawing_utils
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
