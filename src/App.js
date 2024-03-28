@@ -37,7 +37,7 @@ function App() {
             // const shoulderMidPointZ = (rightShoulder.z + leftShoulder.z) / 2;
             // const shoulderMidPointX = (rightShoulder.x + leftShoulder.x) / 2;
             // const shoulderMidPointY = (rightShoulder.y + leftShoulder.y) / 2;
-            
+
             const shoulderMidPoint = [
               (rightShoulder.x + leftShoulder.x) / 2,
               (rightShoulder.y + leftShoulder.y) / 2,
@@ -48,16 +48,17 @@ function App() {
             const chinLandmark = results.faceLandmarks && results.faceLandmarks[152];
 
             // z값을 이용해서 거북목 자세인지 판단 -> 코와 어깨중심 - 해리
-            const Zvalues= checkZValues(noseLandmark, shoulderMidPointZ); 
+            const Zvalues= checkZValues(chinLandmark, shoulderMidPoint); 
 
             //턱끝과 어깨 중심 사이 거리(distance) - 다은
-            const distance = checkDistance(chinLandmark, shoulderMidPointX, shoulderMidPointY);
+            const distance = checkDistance(chinLandmark, shoulderMidPoint);
             //턱끝과 어깨 중심의 2차원 각도 계산(angle) - 다은
-            const angle = checkAngle(chinLandmark, leftShoulder, shoulderMidPointX, shoulderMidPointY);
+            const angle = checkAngle(chinLandmark, leftShoulder, shoulderMidPoint);
 
 
             if(noseLandmark){ // 0번 랜드마크가 인식될 경우 
               if(Zvalues || distance || angle){
+              // if( distance ){
                 canvasCtx.font = "10px Arial";
                 canvasCtx.fillStyle = "red";
                 canvasCtx.fillText("You have to fix your pose.", 10, 30);
