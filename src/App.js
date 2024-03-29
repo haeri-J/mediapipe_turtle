@@ -43,8 +43,7 @@ function App() {
             const chinLandmark = results.faceLandmarks && results.faceLandmarks[152];
 
             // z값을 이용해서 거북목 자세인지 판단 -> 코와 어깨중심 - 해리
-            const Zvalues= checkZValues(noseLandmark, shoulderMidPointZ); 
-
+            const Zvalues= checkZValues(noseLandmark, shoulderMidPointZ);
             //턱끝과 어깨 중심 사이 거리(distance) - 다은
             const distance = checkDistance(chinLandmark, shoulderMidPointX, shoulderMidPointY);
             //턱끝과 어깨 중심의 2차원 각도 계산(angle) - 다은

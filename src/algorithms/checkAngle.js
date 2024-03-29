@@ -3,7 +3,6 @@ export function checkAngle(chinLandmark, LShoulder, shoulderMPointX, shoulderMPo
     // 턱 2차원 값
     const chinX = chinLandmark.x;
     const chinY = chinLandmark.y;
-    const chinZ = chinLandmark.z;
 
     // 어깨 중간 점 2차원 값
     const shoulderMidPointX = shoulderMPointX;
@@ -15,16 +14,22 @@ export function checkAngle(chinLandmark, LShoulder, shoulderMPointX, shoulderMPo
     // 벡터 구하기
     const vec1_x = leftShoulder.x - shoulderMidPointX;
     const vec1_y = leftShoulder.y - shoulderMidPointY;
+
     const vec2_x = chinX - shoulderMidPointX;
     const vec2_y = chinY - shoulderMidPointY;
 
+    // 벡터의 내적 계산
     const dot_product = vec1_x * vec2_x + vec1_y * vec2_y;
+
+    // 각 벡터의 크기 계산
     const vec1_length = Math.sqrt(vec1_x ** 2 + vec1_y ** 2);
     const vec2_length = Math.sqrt(vec2_x ** 2 + vec2_y ** 2);
 
+    // 내적을 이용한 각도 계산
     const cos_theta = dot_product / (vec1_length * vec2_length);
     const angle_rad = Math.acos(cos_theta);
     const angle_deg = (angle_rad * 180) / Math.PI;
+    // const angle_deg = Math.degrees(angle_rad)
 
     return angle_deg <= 60 || angle_deg >= 130;
 } 
