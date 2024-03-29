@@ -1,11 +1,5 @@
-import React, { useRef, useEffect } from 'react';
-import Webcam from "react-webcam";
-import { Holistic, POSE_CONNECTIONS, FACEMESH_TESSELATION} from "@mediapipe/holistic";
-import { Camera } from "@mediapipe/camera_utils";
-import { drawConnectors } from "@mediapipe/drawing_utils";
-import { checkZValues } from "./algorithms/checkZValues";
-import { checkDistance } from "./algorithms/checkDistance"; 
-import { checkAngle } from "./algorithms/checkAngle";
+import React from 'react';
+import PoseDetector from './PoseDetector'; // PoseDetector 컴포넌트의 경로에 따라 수정하세요.
 
 function App() {
   const webcamRef = useRef(null);
@@ -88,8 +82,7 @@ function App() {
 
   return (
     <div className="App">
-      <Webcam ref={webcamRef} style={{position: "absolute", marginLeft: "auto", marginRight: "auto", left: 0, right: 0, textAlign: "center", zindex: 9, width: 640, height: 480}} />
-      <canvas ref={canvasRef} style={{position: "absolute", marginLeft: "auto", marginRight: "auto", left: 0, right: 0, textAlign: "center", zindex: 8, width: 640, height: 480}} />
+      <PoseDetector />
     </div>
   );
 }
