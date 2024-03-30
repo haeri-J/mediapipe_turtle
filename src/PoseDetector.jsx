@@ -48,16 +48,20 @@ function PoseDetector() {
               const chinLandmark = results.faceLandmarks && results.faceLandmarks[152];
   
               // z값을 이용해서 거북목 자세인지 판단 -> 코와 어깨중심 - 해리
-              const Zvalues= checkZValues(chinLandmark, shoulderMidPoint); 
+              const Zvalues= checkZValues(noseLandmark, shoulderMidPoint); 
               //턱끝과 어깨 중심 사이 거리(distance) - 다은
               const distance = checkDistance(chinLandmark, shoulderMidPoint);
               //턱끝과 어깨 중심의 2차원 각도 계산(angle) - 다은
               const angle = checkAngle(chinLandmark, leftShoulder, shoulderMidPoint);
-  
-  
+
+              const ZvaluesBool =  Zvalues >= 0.38;
+              const distanceBool = distance <= 0.15;
+              // const angleBool = (angle <= 60 || angle >= 130);
+
+              console.log("D:"+ distanceBool +distance + "\n" + "Z: "+ZvaluesBool + Zvalues);
+
               if(chinLandmark){ // 152번 랜드마크가 인식될 경우 
-                if(Zvalues >= 0.38 || distance <= 0.15 || (angle <= 60 || angle >= 130)){
-                // if( distance ){
+                 if( distanceBool || ZvaluesBool ){
                   canvasCtx.font = "10px Arial";
                   canvasCtx.fillStyle = "red";
                   canvasCtx.fillText("You have to fix your pose.", 10, 30);
