@@ -7,6 +7,10 @@ import { checkZValues } from "./algorithms/checkZValues";
 import { checkDistance } from "./algorithms/checkDistance"; 
 import { checkAngle } from "./algorithms/checkAngle";
 
+//추가해야 할 사항
+//1. 백엔드로 알림 테이블 형식에 맞는 정보 보내기
+//2. 자세가 흐트러지고 바로 알람이 뜨는 것이 아닌, 몇 분 뒤에 알람 뜨도록 구현.
+
 function PoseDetector() {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
@@ -17,6 +21,34 @@ function PoseDetector() {
           return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic/${file}`;
         },
       });
+
+      // // 백엔드 엔드포인트 URL 및 클라이언트 ID
+      // const BACKEND_URL = "https://your-backend-endpoint.com/alert";//예시임 수정 필요
+      // const CLIENT_ID = "your-client-id";//예시임 수정 필요
+
+      // // 알람을 백엔드로 보내는 함수
+      // function sendAlertToBackend() {
+      //   const now = new Date();// 현재 시간 가져오는 함수
+      //   fetch(BACKEND_URL, {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify({
+      //       clientId: CLIENT_ID,
+      //       timestamp: now.toISOString(),
+      //       date: now.toLocaleDateString(),
+      //       time: now.toLocaleTimeString(),
+      //     }),
+      //   })
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     console.log('Success:', data);
+      //   })
+      //   .catch((error) => {
+      //     console.error('Error:', error);
+      //   });
+      // }
   
       // Other code remains unchanged
   
@@ -33,10 +65,7 @@ function PoseDetector() {
           const rightShoulder = results.poseLandmarks && results.poseLandmarks[12];
   
           if (rightShoulder && leftShoulder) {
-  
-              // const shoulderMidPointZ = (rightShoulder.z + leftShoulder.z) / 2;
-              // const shoulderMidPointX = (rightShoulder.x + leftShoulder.x) / 2;
-              // const shoulderMidPointY = (rightShoulder.y + leftShoulder.y) / 2;
+
   
               const shoulderMidPoint = [
                 (rightShoulder.x + leftShoulder.x) / 2,
@@ -65,6 +94,7 @@ function PoseDetector() {
                   canvasCtx.font = "10px Arial";
                   canvasCtx.fillStyle = "red";
                   canvasCtx.fillText("You have to fix your pose.", 10, 30);
+                  sendAlertToBackend(); // 백엔드로 알람
                 }else {
                   canvasCtx.font = "10px Arial";
                   canvasCtx.fillStyle = "green";
