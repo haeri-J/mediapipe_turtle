@@ -23,10 +23,10 @@ function PoseDetector() {
       });
 
       // // 백엔드 엔드포인트 URL 및 클라이언트 ID
-      // const BACKEND_URL = "https://your-backend-endpoint.com/alert";//예시임 수정 필요
-      // const CLIENT_ID = "your-client-id";//예시임 수정 필요
+      const BACKEND_URL = "https://docturtle.site/alert";//예시임 수정 필요
+      const CLIENT_ID = "your-client-id";//예시임 수정 필요
 
-      // // 알람을 백엔드로 보내는 함수
+      // 알람을 백엔드로 보내는 함수
       // function sendAlertToBackend() {
       //   const now = new Date();// 현재 시간 가져오는 함수
       //   fetch(BACKEND_URL, {
@@ -74,7 +74,7 @@ function PoseDetector() {
               ];
   
               const noseLandmark = results.faceLandmarks && results.faceLandmarks[0];
-              const chinLandmark = results.faceLandmarks && results.faceLandmarks[152];
+              const chinLandmark = results.faceLandmarks && results.faceLandmarks[152]; // 턱 아래쪽 중앙 부근
   
               // z값을 이용해서 거북목 자세인지 판단 -> 코와 어깨중심 - 해리
               const Zvalues= checkZValues(noseLandmark, shoulderMidPoint); 
@@ -83,18 +83,20 @@ function PoseDetector() {
               //턱끝과 어깨 중심의 2차원 각도 계산(angle) - 다은
               const angle = checkAngle(chinLandmark, leftShoulder, shoulderMidPoint);
 
-              const ZvaluesBool =  Zvalues >= 0.38;
-              const distanceBool = distance <= 0.15;
+             // const ZvaluesBool =  Zvalues >= 0.38;
+             // const distanceBool = distance <= 0.15;
+             const ZvaluesBool =  Zvalues >= 0.38;
+             const distanceBool = distance <= 0.15;
               // const angleBool = (angle <= 60 || angle >= 130);
 
               console.log("D:"+ distanceBool +distance + "\n" + "Z: "+ZvaluesBool + Zvalues);
 
               if(chinLandmark){ // 152번 랜드마크가 인식될 경우 
-                 if( distanceBool || ZvaluesBool ){
+                 if( distanceBool && ZvaluesBool ){ 
                   canvasCtx.font = "10px Arial";
                   canvasCtx.fillStyle = "red";
                   canvasCtx.fillText("You have to fix your pose.", 10, 30);
-                  sendAlertToBackend(); // 백엔드로 알람
+                 // sendAlertToBackend(); // 백엔드로 알람
                 }else {
                   canvasCtx.font = "10px Arial";
                   canvasCtx.fillStyle = "green";
