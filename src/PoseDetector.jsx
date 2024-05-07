@@ -22,6 +22,36 @@ function PoseDetector() {
           return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic/${file}`;
         },
       });
+
+      // // 백엔드 엔드포인트 URL 및 클라이언트 ID
+      const BACKEND_URL = "https://docturtle.site/alert";//예시임 수정 필요
+      const CLIENT_ID = "your-client-id";//예시임 수정 필요
+
+      // 알람을 백엔드로 보내는 함수
+      // function sendAlertToBackend() {
+      //   const now = new Date();// 현재 시간 가져오는 함수
+      //   fetch(BACKEND_URL, {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify({
+      //       clientId: CLIENT_ID,
+      //       timestamp: now.toISOString(),
+      //       date: now.toLocaleDateString(),
+      //       time: now.toLocaleTimeString(),
+      //     }),
+      //   })
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     console.log('Success:', data);
+      //   })
+      //   .catch((error) => {
+      //     console.error('Error:', error);
+      //   });
+      // }
+  
+      // Other code remains unchanged
   
       holistic.onResults((results) => {
           const canvasCtx = canvasRef.current.getContext("2d");
@@ -44,8 +74,8 @@ function PoseDetector() {
                 (rightShoulder.z + leftShoulder.z) / 2
               ];
   
-              const noseLandmark = results.poseLandmarks && results.faceLandmarks[0];
-              const chinLandmark = results.faceLandmarks && results.faceLandmarks[152];
+              const noseLandmark = results.faceLandmarks && results.faceLandmarks[0];
+              const chinLandmark = results.faceLandmarks && results.faceLandmarks[152]; // 턱 아래쪽 중앙 부근
   
               // z값을 이용해서 거북목 자세인지 판단 -> 코와 어깨중심 - 해리
               const Zvalues= checkZValues(noseLandmark, shoulderMidPoint); 
@@ -56,7 +86,11 @@ function PoseDetector() {
               //x,y,z을 이용한 목거리 계산 
               const three = check3D(chinLandmark, shoulderMidPoint);
 
-              console.log("코:"+ noseLandmark.z + "어깨 중간:"  + shoulderMidPoint[2]+ "\n" );
+             // const ZvaluesBool =  Zvalues >= 0.38;
+             // const distanceBool = distance <= 0.15;
+             //const ZvaluesBool =  Zvalues >= 0.38;
+             //const distanceBool = distance <= 0.15;
+              // const angleBool = (angle <= 60 || angle >= 130);
 
 
 
@@ -68,11 +102,11 @@ function PoseDetector() {
               // console.log("3D:"+ ZvaluesBool + Zvalues + "\n" );
 
               if(chinLandmark){ // 152번 랜드마크가 인식될 경우 
-                 if(!ZvaluesBool){
+                 if( distanceBool && ZvaluesBool ){ 
                   canvasCtx.font = "10px Arial";
                   canvasCtx.fillStyle = "red";
                   canvasCtx.fillText("You have to fix your pose.", 10, 30);
-
+                 // sendAlertToBackend(); // 백엔드로 알람
                 }else {
                   canvasCtx.font = "10px Arial";
                   canvasCtx.fillStyle = "green";
